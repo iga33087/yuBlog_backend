@@ -16,6 +16,8 @@ router.get('/',async (req, res) => {
 
 router.post('/',async (req, res) => {
   try {
+    let userData=global.verifyToken(req.headers.authorization)
+    req.body.member_id=userData.data._id
     await mongo.addData('articleModel',req.body)
     res.send(true)
   }
