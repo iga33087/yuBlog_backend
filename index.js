@@ -12,10 +12,15 @@ app.use(bodyParser.urlencoded({ limit: '1024mb',extended: false }))
 app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
 
-const whiteList = ['/auth/login','/classtypes','/articles']
+const whiteList = {
+  'GET': ['/articles/classtypeBox'],
+  'POST': ['/auth/login'],
+  'PUT': [],
+  'DELETE': []
+}
 
 app.use(async (req, res, next) => {
-  if (whiteList.includes(req.path)) {
+  if (whiteList[req.method].includes(req.path)) {
     return next();
   }
   else {
@@ -27,7 +32,6 @@ app.use(async (req, res, next) => {
       })
     }
   }
-  verifyToken(req, res, next);
 });
 
 

@@ -14,6 +14,26 @@ router.get('/',async (req, res) => {
   }
 })
 
+router.get('/classtypeBox',async (req, res) => {
+  try {
+    let data=[]
+    let classtypes=await mongo.getData('classtypeModel',{})
+    for(let item of classtypes.data) {
+      let obj= {
+        title:item.title,
+        children:(await mongo.getData('articleModel',{classtype_id:item._id},'member_id classtype_id title date')).data
+      }
+      data.push(obj)
+    }
+    res.send(data)
+  }
+  catch(err) {
+    res.status(400).send({
+      message: err
+    })
+  }
+})
+
 router.post('/',async (req, res) => {
   try {
     let userData=global.verifyToken(req.headers.authorization)
