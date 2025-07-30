@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ limit: '1024mb',extended: false }))
 app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
 
-const whiteList = ['/auth/login']
+const whiteList = ['/auth/login','/classtypes','/articles']
 
 app.use(async (req, res, next) => {
   if (whiteList.includes(req.path)) {
