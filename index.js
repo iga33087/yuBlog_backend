@@ -7,13 +7,14 @@ const auth = require('./routes/auth.js')
 const articles = require('./routes/articles.js')
 const classtypes = require('./routes/classtypes.js')
 const members = require('./routes/members.js')
+const comments = require('./routes/comments.js')
 
 app.use(bodyParser.urlencoded({ limit: '1024mb',extended: false }))
 app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
 
 const whiteList = {
-  'GET': ['/articles/classtypeBox'],
+  'GET': ['/articles/classtypeBox','/articles/data'],
   'POST': ['/auth/login'],
   'PUT': [],
   'DELETE': []
@@ -34,11 +35,11 @@ app.use(async (req, res, next) => {
   }
 });
 
-
 app.use('/auth', auth)
 app.use('/articles', articles)
 app.use('/classtypes', classtypes)
 app.use('/members', members)
+app.use('/comments', comments)
 
 app.get('/',async (req, res) => {
   let data=[

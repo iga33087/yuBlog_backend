@@ -34,6 +34,25 @@ router.get('/classtypeBox',async (req, res) => {
   }
 })
 
+router.get('/data',async (req, res) => {
+  try {
+    let data={}
+    data.article=await mongo.getOneData('articleModel',{_id:req.query.id})
+    data.classtype=await mongo.getOneData('classtypeModel',{_id:data.article.classtype_id})
+    data.member=await mongo.getOneData('memberModel',{_id:data.article.member_id},'name account isAdmin intro link')
+    data.comment=JSON.parse(JSON.stringify(await mongo.getData('commentModel',{article_id:req.query.id,sort:'-date'})))
+    for(let item of data.comment.data) {
+      item.name=(await mongo.getOneData('memberModel',{_id:item.member_id}))?.name
+    }
+    res.send(data)
+  }
+  catch(err) {
+    res.status(400).send({
+      message: err
+    })
+  }
+})
+
 router.post('/',async (req, res) => {
   try {
     let userData=global.verifyToken(req.headers.authorization)
