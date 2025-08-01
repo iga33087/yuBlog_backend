@@ -40,6 +40,10 @@ router.get('/data',async (req, res) => {
     data.article=await mongo.getOneData('articleModel',{_id:req.query.id})
     data.classtype=await mongo.getOneData('classtypeModel',{_id:data.article.classtype_id})
     if(!data.classtype) data.classtype={title:'Unknown'}
+    data.tag=[]
+    for(let item of data.article.tag_id) {
+      data.tag.push((await mongo.getOneData('tagModel',{_id:item}))?.title)
+    }
     data.member=await mongo.getOneData('memberModel',{_id:data.article.member_id},'name account isAdmin intro link')
     data.comment=JSON.parse(JSON.stringify(await mongo.getData('commentModel',{article_id:req.query.id,sort:'-date'})))
     for(let item of data.comment.data) {

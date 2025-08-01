@@ -6,6 +6,7 @@ const app = express()
 const auth = require('./routes/auth.js')
 const articles = require('./routes/articles.js')
 const classtypes = require('./routes/classtypes.js')
+const tags = require('./routes/tags.js')
 const members = require('./routes/members.js')
 const comments = require('./routes/comments.js')
 
@@ -38,6 +39,7 @@ app.use(async (req, res, next) => {
 app.use('/auth', auth)
 app.use('/articles', articles)
 app.use('/classtypes', classtypes)
+app.use('/tags', tags)
 app.use('/members', members)
 app.use('/comments', comments)
 
