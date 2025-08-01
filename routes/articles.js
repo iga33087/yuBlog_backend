@@ -39,6 +39,7 @@ router.get('/data',async (req, res) => {
     let data={}
     data.article=await mongo.getOneData('articleModel',{_id:req.query.id})
     data.classtype=await mongo.getOneData('classtypeModel',{_id:data.article.classtype_id})
+    if(!data.classtype) data.classtype={title:'Unknown'}
     data.member=await mongo.getOneData('memberModel',{_id:data.article.member_id},'name account isAdmin intro link')
     data.comment=JSON.parse(JSON.stringify(await mongo.getData('commentModel',{article_id:req.query.id,sort:'-date'})))
     for(let item of data.comment.data) {
@@ -82,6 +83,7 @@ router.put('/',async (req, res) => {
 router.delete('/',async (req, res) => {
   try {
     await mongo.delDataByID('articleModel',{_id:req.query._id})
+    await mongo.delDataMany('commentModel',{article_id:req.query._id})
     res.send(true)
   }
   catch(err) {
