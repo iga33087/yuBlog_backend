@@ -15,13 +15,14 @@ app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
 
 const whiteList = {
-  'GET': ['/articles/classtypeBox','/articles/data'],
+  'GET': ['/classtypes','/tags','/articles/outline','/articles/classtypeBox','/articles/data'],
   'POST': ['/auth/login'],
   'PUT': [],
   'DELETE': []
 }
 
 app.use(async (req, res, next) => {
+  console.log('use',req.path)
   if (whiteList[req.method].includes(req.path)) {
     return next();
   }

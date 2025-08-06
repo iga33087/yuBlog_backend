@@ -14,6 +14,22 @@ router.get('/',async (req, res) => {
   }
 })
 
+router.get('/outline',async (req, res) => {
+  try {
+    let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{sort:'-date'})))
+    for(let item of data.data) {
+      item.classtypeName=(await mongo.getOneData('classtypeModel',{_id:item.classtype_id},'title')).title
+    }
+    res.send(data)
+  }
+  catch(err) {
+    console.log(88,err)
+    res.status(400).send({
+      message: err
+    })
+  }
+})
+
 router.get('/classtypeBox',async (req, res) => {
   try {
     let data=[]
