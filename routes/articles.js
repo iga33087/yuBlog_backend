@@ -18,7 +18,7 @@ router.get('/outline',async (req, res) => {
   try {
     let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{sort:'-date'})))
     for(let item of data.data) {
-      item.classtypeName=(await mongo.getOneData('classtypeModel',{_id:item.classtype_id},'title')).title
+      item.content=item.content.substr(0,60)+'...'
     }
     res.send(data)
   }
