@@ -16,7 +16,11 @@ router.get('/',async (req, res) => {
 
 router.get('/outline',async (req, res) => {
   try {
-    let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{sort:'-date'})))
+    let obj= {
+      title:req.query.keyword,
+      classtype_id:req.query.classtype
+    }
+    let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{...obj,sort:'-date'})))
     for(let item of data.data) {
       item.content=item.content.substr(0,60)+'...'
     }
