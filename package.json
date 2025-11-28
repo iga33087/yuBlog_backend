@@ -16,6 +16,7 @@
     "express-form-data": "^3.0.1",
     "googleapis": "^156.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.5"
+    "mongoose": "^8.16.5",
+    "request-ip": "^3.3.0"
   }
 }

@@ -1,6 +1,7 @@
 global=require('./lib/global.js')
 const bodyParser = require('body-parser')
 const formData = require("express-form-data")
+const requestIp = require('request-ip');
 const express = require('express')
 const app = express()
 const auth = require('./routes/auth.js')
@@ -12,6 +13,7 @@ const comments = require('./routes/comments.js')
 const appInfo = require('./routes/appInfo.js')
 const google = require('./routes/google.js')
 
+app.use(requestIp.mw())
 app.use(bodyParser.urlencoded({ limit: '1024mb',extended: false }))
 app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
@@ -63,5 +65,14 @@ app.get('/',async (req, res) => {
 })
 
 global.randomSign()
+
+setInterval(()=> {
+  let now=new Date().getTime()
+  for(let item of Object.keys(global.articlesIP)) {
+    for(let item2 of Object.keys(global.articlesIP[item])) {
+      if(now>global.articlesIP[item][item2]) delete global.articlesIP[item][item2]
+    }
+  }
+},1000*60)
 
 app.listen(3009)

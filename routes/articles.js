@@ -58,8 +58,18 @@ router.get('/classtypeBox',async (req, res) => {
 
 router.get('/data',async (req, res) => {
   try {
+    if(!global.articlesIP[req.query.id]) global.articlesIP[req.query.id]={}
+
     let data={}
     data.article=await mongo.getOneData('articleModel',{_id:req.query.id})
+
+    if(!global.articlesIP[req.query.id][req.clientIp]) {
+      global.articlesIP[req.query.id][req.clientIp]=new Date().getTime()+global.articlesIPExp
+      data.article.viewed+=1
+      await mongo.editDataByID('articleModel',data.article)
+      data.article=await mongo.getOneData('articleModel',{_id:req.query.id})
+    }
+
     data.classtype=await mongo.getOneData('classtypeModel',{_id:data.article.classtype_id})
     if(!data.classtype) data.classtype={title:'Unknown'}
     data.tag=[]
