@@ -19,7 +19,7 @@ app.use(bodyParser.json({limit: '1024mb'}))
 app.use(formData.parse())
 
 const whiteList = {
-  'GET': ['/classtypes','/tags','/articles/outline','/articles/classtypeBox','/articles/data','/google/getToken','/google/getInfo'],
+  'GET': ['/classtypes','/members/noUser','/tags','/articles/outline','/articles/classtypeBox','/articles/data','/google/getToken','/google/getInfo'],
   'POST': ['/auth/login','/google/login'],
   'PUT': [],
   'DELETE': []

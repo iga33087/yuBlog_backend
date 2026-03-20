@@ -15,6 +15,18 @@ router.get('/',async (req, res) => {
   }
 })
 
+router.get('/noUser',async (req, res) => {
+  try {
+    let r=await mongo.getData('memberModel',req.query,'name account isAdmin intro link date')
+    res.send(r.total ? true:false)
+  }
+  catch(err) {
+    res.status(400).send({
+      message: err
+    })
+  }
+})
+
 router.post('/',async (req, res) => {
   try {
     if(req.body.password) req.body.password=String(SHA256(req.body.password))
