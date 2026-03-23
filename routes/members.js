@@ -17,8 +17,26 @@ router.get('/',async (req, res) => {
 
 router.get('/noUser',async (req, res) => {
   try {
-    let r=await mongo.getData('memberModel',req.query,'name account isAdmin intro link date')
+    let r=await mongo.getData('memberModel',{isAdmin:true},'name account isAdmin intro link date')
     res.send(r.total ? true:false)
+  }
+  catch(err) {
+    res.status(400).send({
+      message: err
+    })
+  }
+})
+
+router.post('/createFirstAdmin',async (req, res) => {
+  try {
+    let r=await mongo.getData('memberModel',{isAdmin:true},'name account isAdmin intro link date')
+    if(r.total) throw 'Administrator already exists'
+    if(req.body.repassword!==req.body.password) throw 'Password error'
+    delete req.body.repassword
+    req.body.password=String(SHA256(req.body.password))
+    console.log(99999,{...req.body,name:req.body.account,isAdmin:true})
+    await mongo.addData('memberModel',{...req.body,name:req.body.account,isAdmin:true})
+    res.send(true)
   }
   catch(err) {
     res.status(400).send({

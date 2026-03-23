@@ -20,7 +20,7 @@ app.use(formData.parse())
 
 const whiteList = {
   'GET': ['/classtypes','/members/noUser','/tags','/articles/outline','/articles/classtypeBox','/articles/data','/google/getToken','/google/getInfo'],
-  'POST': ['/auth/login','/google/login'],
+  'POST': ['/auth/login','/google/login','/members/createFirstAdmin'],
   'PUT': [],
   'DELETE': []
 }
@@ -51,16 +51,7 @@ app.use('/appInfo', appInfo)
 app.use('/google', google)
 
 app.get('/',async (req, res) => {
-  let data=[
-    {title:"Linux",children:[
-      {title:"如何部屬網頁"},
-      {title:"如何實現Docker化"},
-      {title:"如何透過CI/CD實現自動化工作"},
-    ]},
-    {title:"Javascript",children:[]},
-    {title:"Vue",children:[]},
-    {title:"Openwrt",children:[]},
-  ]
+  let data=[]
   res.send(data)
 })
 

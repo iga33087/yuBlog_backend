@@ -21,9 +21,10 @@ router.get('/outline',async (req, res) => {
       classtype_id:req.query.classtype,
       tag_id:req.query.tag ? req.query.tag.split(',') : [],
       page:req.query.page,
-      limit:req.query.limit
+      limit:req.query.limit,
+      sort:req.query.sort
     }
-    let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{...obj,sort:'-date'})))
+    let data=JSON.parse(JSON.stringify(await mongo.getData('articleModel',{...obj})))
     for(let item of data.data) {
       item.content=global.htmlToText(item.content).substr(0,60)+'...'
     }
