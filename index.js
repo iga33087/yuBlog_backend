@@ -12,6 +12,7 @@ const members = require('./routes/members.js')
 const comments = require('./routes/comments.js')
 const appInfo = require('./routes/appInfo.js')
 const google = require('./routes/google.js')
+const img = require('./routes/img.js')
 
 app.use(requestIp.mw())
 app.use(bodyParser.urlencoded({ limit: '1024mb',extended: false }))
@@ -49,6 +50,7 @@ app.use('/members', members)
 app.use('/comments', comments)
 app.use('/appInfo', appInfo)
 app.use('/google', google)
+app.use('/img', img)
 
 app.get('/',async (req, res) => {
   let data=[]
